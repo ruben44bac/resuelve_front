@@ -18,6 +18,9 @@ defmodule ResuelvefWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/ghibli", GhibliLive, :index
+    live "/harvard", HarvardLive, :index
+    live "/xkcd", XkcdLive, :index
   end
 
   # Other scopes may use custom stacks.
