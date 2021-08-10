@@ -17,8 +17,8 @@
     </div>
 
     <div class="w-full flex mt-4">
-        <div class="mx-auto w-1/3 relative">
-            <input class="text-lg rounded-full py-3 pl-4 pr-8 bg-white w-full shadow-lg" placeholder="Buscador..." />
+        <form phx-change="search_change" phx-submit="search_submit" class="mx-auto w-1/3 relative">
+            <input name="search" value="<%= @search%>" class="text-lg rounded-full py-3 pl-4 pr-8 bg-white w-full shadow-lg" placeholder="Buscador..." />
             <div class="absolute right-0 top-0 inline-flex items-center h-full w-6 mr-3">
                 <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="h-5 w-5 mx-auto">
                     <g class="">
@@ -27,7 +27,16 @@
                     </g>
                 </svg>
             </div>
-        </div>
+            <%= if @autocomplete |> length > 0 do %>
+            <div class="absolute mt-12 z-20 top-0 left-0 w-full flex px-3">
+                <div class="w-full bg-gray-100 rounded-b shadow-lg">
+                    <%= for item <- @autocomplete do %>
+                        <button type="button" phx-click="select_film" phx-value-id="<%= item["id"] %>" class="w-full px-2 py-2 hover:bg-gray-300"><%= item["title"] %></button>
+                    <% end %>
+                </div>
+            </div>
+            <% end %>
+        </form>
     </div>
     <%= if @loading do %>
         <div class="w-full flex mt-20">
@@ -38,7 +47,7 @@
     <% end %>
     <div class="w-full flex mt-10 pb-20">
         <div class="w-10/12 mx-auto">
-            <%= for item <- @list do %>
+            <%= for item <- @list_body do %>
                 <div class="px-4 py-10 w-2/12 float-left">
                     <div class="rounded w-full relative">
                         <img class="rounded w-full h-96" src="/images/<%= get_img(item["id"]) %>.jpg">
@@ -56,3 +65,11 @@
         </div>
     </div>
 </div>
+
+
+<%= if @film_selected != nil do %>
+<div class="w-full h-screen fixed z-40 bg-t top-0 left-0">
+
+
+</div>
+<% end %>

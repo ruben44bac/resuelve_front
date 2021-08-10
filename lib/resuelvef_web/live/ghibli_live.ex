@@ -7,7 +7,11 @@ defmodule ResuelvefWeb.GhibliLive do
     send(self(), :after_join)
     {:ok, assign(socket,
       loading: true,
-      list: []
+      list: [],
+      list_body: [],
+      autocomplete: [],
+      search: "",
+      film_selected: nil
     )}
   end
 
@@ -21,8 +25,31 @@ defmodule ResuelvefWeb.GhibliLive do
   end
 
   def handle_info({_ref, %{list: list}}, socket) do
-    list |> IO.inspect(label: "LISTA => ")
-    {:noreply, assign(socket, list: list, loading: false)}
+    {:noreply, assign(socket, list: list, list_body: list, loading: false)}
+  end
+
+  def handle_event("search_change", %{"search" => ""}, socket) do
+    {:noreply, assign(socket, search: "", autocomplete: [])}
+  end
+
+  def handle_event("search_change", %{"search" => search}, socket) do
+    aux_search = search |> String.downcase
+    autocomplete = socket.assigns.list
+      |> Enum.filter(fn l -> l["title"] |> String.downcase |> String.contains?(aux_search) end)
+    {:noreply, assign(socket, search: search, autocomplete: autocomplete)}
+  end
+
+  def handle_event("search_submit", %{"search" => search}, socket) do
+    aux_search = search |> String.downcase
+    list_body = socket.assigns.list
+      |> Enum.filter(fn l -> l["title"] |> String.downcase |> String.contains?(aux_search) end)
+    {:noreply, assign(socket, search: search, list_body: list_body)}
+  end
+
+  def handle_event("select_film", %{"id" => id}, socket) do
+    film_selected = socket.assigns.list
+      |> Enum.find(fn l -> l["id"] == id end)
+    {:noreply, assign(socket, film_selected: film_selected, autocomplete: [])}
   end
 
   defp get_list() do

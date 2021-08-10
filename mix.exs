@@ -48,7 +48,8 @@ defmodule Resuelvef.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 3.0"},
-      {:httpoison, "~> 1.6"}
+      {:httpoison, "~> 1.6"},
+      {:plug, "~> 1.10.0"}
     ]
   end
 
