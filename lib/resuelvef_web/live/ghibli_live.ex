@@ -52,6 +52,10 @@ defmodule ResuelvefWeb.GhibliLive do
     {:noreply, assign(socket, film_selected: film_selected, autocomplete: [])}
   end
 
+  def handle_event("close_detail", _params, socket) do
+    {:noreply, assign(socket, film_selected: nil)}
+  end
+
   defp get_list() do
     Task.async(fn ->
       list = GhibliHandler.get_list
