@@ -5,7 +5,12 @@ defmodule Resuelvef.GhibliHandler do
   def get_list() do
     "films"
     |> request("get")
+    |> build_list()
   end
+
+  defp build_list({:ok, list}), do: list
+
+  defp build_list({:error, _error}), do: []
 
   def request(path, method, body \\ nil) do
 		request = %HTTPoison.Request{url: "#{@endpoint}#{path}"}

@@ -29,4 +29,30 @@
             </div>
         </div>
     </div>
+    <%= if @loading do %>
+        <div class="w-full flex mt-20">
+            <lottie-player src="/images/loading.json" background="transparent" speed="1"
+                class="w-64 h-64 mx-auto" loop autoplay>
+            </lottie-player>
+        </div>
+    <% end %>
+    <div class="w-full flex mt-10 pb-20">
+        <div class="w-10/12 mx-auto">
+            <%= for item <- @list do %>
+                <div class="px-4 py-10 w-2/12 float-left">
+                    <div class="rounded w-full relative">
+                        <img class="rounded w-full h-96" src="/images/<%= get_img(item["id"]) %>.jpg">
+                        <div class="p-2 absolute bottom-0 left-0 -mb-10">
+                            <div class="bg-white rounded-lg w-full p-2 shadow-lg">
+                                <label class="block text-gray-900 text-lg font-medium"><%= item["title"] %></label>
+                                <label class="block text-blue-600 font-medium -mt-1"><%= item["original_title_romanised"] %></label>
+                                <label class="block text-gray-600 font-medium -mt-1"><%= item["original_title"] %></label>
+                                <label class="block text-gray-600 font-medium text-sm"><%= item["description"] |> String.slice(0, 150) %>... </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
 </div>
