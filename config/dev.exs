@@ -31,7 +31,8 @@ config :resuelvef, ResuelvefWeb.Endpoint,
   ]
 
 config :resuelvef, :endpoint,
-  ghibli: "https://ghibliapi.herokuapp.com/"
+  ghibli: "https://ghibliapi.herokuapp.com/",
+  harvar: "https://api.harvardartmuseums.org/object?apikey=b2b107bb-64f0-4651-99ff-d3b0e15fceb7"
 
 
 

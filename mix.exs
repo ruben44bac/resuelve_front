@@ -49,7 +49,9 @@ defmodule Resuelvef.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 3.0"},
       {:httpoison, "~> 1.6"},
-      {:plug, "~> 1.10.0"}
+      {:plug, "~> 1.10.0"},
+      {:earmark, "~> 1.2"},
+      {:ex_doc, "~> 0.19"}
     ]
   end
 
