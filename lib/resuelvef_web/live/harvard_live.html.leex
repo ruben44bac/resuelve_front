@@ -1,0 +1,54 @@
+<div class="bg-gray-900 min-h-screen">
+    <div class="w-full inline-flex items-center py-3 px-3">
+        <div class="w-1/3">
+            <a href="/" class="px-2 inline-flex items-center rounded-full py-1 bg-gray-800">
+                <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="angle-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="h-5 w-5 ml-auto">
+                    <g class="">
+                        <path fill="currentColor" d="M223.83 352.44a24 24 0 0 1 0 33.86L201.32 409l-.18.18a23.76 23.76 0 0 1-33.6-.18l-96.15-96.5 56.47-56.5z" class="text-white"></path>
+                        <path fill="currentColor" d="M167.81 102.87l-.17.18L32.11 239a24 24 0 0 0-.17 33.93l.06.07 39.39 39.51L224 159.66a23.92 23.92 0 0 0 0-33.84l-22.54-22.74a23.77 23.77 0 0 0-33.62-.23z" class="text-gray-400"></path>
+                    </g>
+                </svg>
+                <span class="ml-1 font-bold text-sm mr-auto text-white">Home</span>
+            </a>
+        </div>
+        <div class="w-1/3 flex">
+            <label class="text-white mx-auto text-4xl">Harvard Art Museums</label>
+        </div>
+    </div>
+
+    <%= if @loading do %>
+        <div class="w-full flex mt-20">
+            <lottie-player src="/images/loading.json" background="transparent" speed="1"
+                class="w-64 h-64 mx-auto" loop autoplay>
+            </lottie-player>
+        </div>
+    <% else %>
+
+        <div class="w-full flex">
+            <div class="w-1/2">
+
+            </div>
+            <div class="w-1/2 h-85v overflow-y-scroll">
+                <div class="w-full">
+                    <%= for item <- @list do %>
+                        <button phx-click="select_film" phx-value-id="<%= item["id"] %>" class="px-4 py-10 w-3/12 float-left">
+                            <div class="w-full h-64 rounded-lg bg-gray-800" style="background-image: url(<%= item["primaryimageurl"] %>); background-position: center center; background-repeat: no-repeat; background-size:100% auto;">
+                            </div>
+                            <label class="block text-white text-xl h-24 text-left"><%= item["title"] |> String.slice(0, 70) %> <%= if item["title"] |> String.length > 70, do: "..." %></label>
+                        </button>
+                    <% end %>
+                </div>
+                <%= if (@list |> length) < @info["totalrecords"] do %>
+                    <div class="w-full flex mt-4 pb-4">
+                        <button phx-click="more_list" class="text-white bg-gray-700 rounded font-bold px-4 py-2 mx-auto">
+                            Ver más
+                        </button>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+
+
+
+</div>

@@ -5,12 +5,17 @@ defmodule ResuelvefWeb.HarvardLive do
   def mount(_params, _session, socket) do
     send(self(), :after_join)
     {:ok, assign(socket,
-      list: []
+      list: [],
+      info: nil,
+      loading: true,
+      loading_list: false,
+      index: 0
     )}
   end
 
   def handle_info(:after_join, socket) do
-    get_list(0)
+    socket.assigns.index
+    |> get_list()
     {:noreply, socket}
   end
 
@@ -18,17 +23,25 @@ defmodule ResuelvefWeb.HarvardLive do
     {:noreply, socket}
   end
 
-  def handle_info({_ref, %{list: list}}, socket) do
-    list
+  def handle_info({_ref, %{data: data}}, socket) do
+    list = data["records"]
     |> IO.inspect(label: "LIST ==>>> ")
-    {:noreply, assign(socket, list: list, loading: false)}
+    info = data["info"]
+    {:noreply, assign(socket, list: (socket.assigns.list ++ list), info: info, loading: false)}
+  end
+
+  def handle_event("more_list", _params, socket) do
+    index = socket.assigns.index + 1
+    index
+    |> get_list()
+    {:noreply, assign(socket, index: index, loading_list: true)}
   end
 
   defp get_list(page) do
     Task.async(fn ->
-      list = page
+      data = page
         |> HarvardHandler.get_list
-      %{list: list}
+      %{data: data}
     end)
   end
 

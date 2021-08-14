@@ -68,7 +68,7 @@ defmodule Resuelvef.HarvardHandler do
   defp build_list({:error, _error}), do: []
 
   defp request(method, page) do
-		%HTTPoison.Request{url: "#{@endpoint}&size=30&page=#{page}"}
+		%HTTPoison.Request{url: "#{@endpoint}&size=32&page=#{page}"}
       |> Map.put(:method, method |> String.to_atom)
       |> Map.put(:headers, ["Content-Type": "application/json"])
       |> Map.put(:options, [timeout: 50_000, recv_timeout: 50_000])
