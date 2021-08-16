@@ -18,22 +18,21 @@
 
     <%= if @loading do %>
         <div class="w-full flex mt-20">
-            <lottie-player src="/images/loading.json" background="transparent" speed="1"
+            <lottie-player src="/images/loading_2.json" background="transparent" speed="1"
                 class="w-64 h-64 mx-auto" loop autoplay>
             </lottie-player>
         </div>
     <% else %>
 
         <div class="w-full flex">
-            <div class="w-1/2">
 
-            </div>
             <div class="w-1/2 h-85v overflow-y-scroll">
                 <div class="w-full">
                     <%= for item <- @list do %>
                         <button phx-click="select_film" phx-value-id="<%= item["id"] %>" class="px-4 py-10 w-3/12 float-left">
                             <div class="w-full h-64 rounded-lg bg-gray-800" style="background-image: url(<%= item["primaryimageurl"] %>); background-position: center center; background-repeat: no-repeat; background-size:100% auto;">
                             </div>
+                            <label class="block text-base text-gray-500 text-left mt-2"><%= item["classification"] %></label>
                             <label class="block text-white text-xl h-24 text-left"><%= item["title"] |> String.slice(0, 70) %> <%= if item["title"] |> String.length > 70, do: "..." %></label>
                         </button>
                     <% end %>
@@ -46,6 +45,39 @@
                     </div>
                 <% end %>
             </div>
+
+
+            <div class="w-1/2 p-4">
+                <%= if @selected != nil do %>
+                <div class="w-full block">
+                    <div class="w-full flex">
+                        <img class="h-50v mx-auto rounded" src="<%= @selected["primaryimageurl"] %>">
+                    </div>
+                    <div class="w-full whitespace-no-wrap overflow-x-auto py-2 ">
+                        <%= for img <- @selected["images"] do %>
+                            <button phx-click="select_img" phx-value-id="<%= img["imageid"] %>" class="rounded py-2 px-4 <%= if img["baseimageurl"] ==  @selected["primaryimageurl"], do: "border-2 border-blue-500" %> ">
+                                <img class="h-32" src="<%= img["baseimageurl"] %>">
+                            </button>
+                        <% end %>
+                    </div>
+                    <label class="block text-2xl text-white text-center mt-2"><%= @selected["title"] %></label>
+                    <label class="block text-base text-gray-600 text-center mt-2"><%= @selected["classification"] %></label>
+                    <label class="block text-base text-gray-400 text-center mt-2"><%= @selected["creditline"] %></label>
+                    <%= if @selected |> Map.get("colors") != nil do %>
+                        <div class="w-full inline-flex items-center mt-6">
+                            <label class="block text-base text-gray-400 text-center mt-2 ml-auto">Colors </label>
+                            <div class="ml-3 mr-auto">
+                                <%= for color <- @selected["colors"] do %>
+                                <div class="w-6 h-6 rounded-full float-left mr-3" style="background: <%= color["css3"] %>">
+                                </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+                <% end %>
+            </div>
+
         </div>
     <% end %>
 

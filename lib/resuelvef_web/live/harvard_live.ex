@@ -9,7 +9,8 @@ defmodule ResuelvefWeb.HarvardLive do
       info: nil,
       loading: true,
       loading_list: false,
-      index: 0
+      index: 0,
+      selected: nil
     )}
   end
 
@@ -25,7 +26,6 @@ defmodule ResuelvefWeb.HarvardLive do
 
   def handle_info({_ref, %{data: data}}, socket) do
     list = data["records"]
-    |> IO.inspect(label: "LIST ==>>> ")
     info = data["info"]
     {:noreply, assign(socket, list: (socket.assigns.list ++ list), info: info, loading: false)}
   end
@@ -35,6 +35,22 @@ defmodule ResuelvefWeb.HarvardLive do
     index
     |> get_list()
     {:noreply, assign(socket, index: index, loading_list: true)}
+  end
+
+  def handle_event("select_film", %{"id" => id}, socket) do
+    id = id |> String.to_integer
+    selected = socket.assigns.list
+    |> Enum.find(fn l -> l["id"] == id end)
+    {:noreply, assign(socket, selected: selected)}
+  end
+
+  def handle_event("select_img", %{"id" => id}, socket) do
+    id = id |> String.to_integer
+    img = socket.assigns.selected["images"]
+    |> Enum.find(fn i -> i["imageid"] == id end)
+    selected = socket.assigns.selected
+    |> Map.put("primaryimageurl", img["baseimageurl"])
+    {:noreply, assign(socket, selected: selected)}
   end
 
   defp get_list(page) do
