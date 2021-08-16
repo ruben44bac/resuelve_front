@@ -57,6 +57,10 @@ defmodule ResuelvefWeb.HarvardLive do
     {:noreply, assign(socket, selected: selected)}
   end
 
+  def handle_event("close_detail", _params, socket) do
+    {:noreply, assign(socket, selected: nil)}
+  end
+
   defp get_list(page) do
     Task.async(fn ->
       data = page

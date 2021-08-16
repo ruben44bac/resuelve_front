@@ -11,8 +11,8 @@
                 <span class="ml-1 font-bold text-sm mr-auto text-white">Home</span>
             </a>
         </div>
-        <div class="w-1/3 flex">
-            <label class="text-white mx-auto text-4xl">Harvard Art Museums</label>
+        <div class="w-2/3 sm:w-1/3 flex">
+            <label class="text-white mx-auto text-2xl sm:text-4xl">Harvard Art Museums</label>
         </div>
     </div>
 
@@ -24,16 +24,16 @@
         </div>
     <% else %>
 
-        <div class="w-full flex">
+        <div class="w-full sm:flex">
 
-            <div class="w-1/2 h-85v overflow-y-scroll" phx-hook="scroll_infinite">
+            <div class="w-full sm:w-1/2 h-85v overflow-y-scroll" phx-hook="scroll_infinite">
                 <div class="w-full">
                     <%= for item <- @list do %>
-                        <button phx-click="select_film" phx-value-id="<%= item["id"] %>" class="px-4 py-10 w-3/12 float-left">
+                        <button phx-click="select_film" phx-value-id="<%= item["id"] %>" class="px-4 py-5 sm:py-10 w-full sm:w-3/12 float-left">
                             <div class="w-full h-64 rounded-lg bg-gray-800" style="background-image: url(<%= item["primaryimageurl"] %>); background-position: center center; background-repeat: no-repeat; background-size:100% auto;">
                             </div>
                             <label class="block text-base text-gray-500 text-left mt-2"><%= item["classification"] %></label>
-                            <label class="block text-white text-xl h-24 text-left"><%= item["title"] |> String.slice(0, 70) %> <%= if item["title"] |> String.length > 70, do: "..." %></label>
+                            <label class="block text-white text-base sm:text-xl h-12 sm:h-20 text-left"><%= item["title"] |> String.slice(0, 70) %> <%= if item["title"] |> String.length > 70, do: "..." %></label>
                         </button>
                     <% end %>
                 </div>
@@ -47,12 +47,13 @@
             </div>
 
 
-            <div class="w-1/2 p-4">
+            <div class="hidden sm:inline w-1/2 p-4">
                 <%= if @selected != nil do %>
                 <div class="w-full block">
                     <div class="w-full flex">
                         <img class="h-50v mx-auto rounded" src="<%= @selected["primaryimageurl"] %>">
                     </div>
+                    <%= if @selected |> Map.get("images") != nil do %>
                     <div class="w-full whitespace-no-wrap overflow-x-auto py-2 ">
                         <%= for img <- @selected["images"] do %>
                             <button phx-click="select_img" phx-value-id="<%= img["imageid"] %>" class="rounded py-2 px-4 <%= if img["baseimageurl"] ==  @selected["primaryimageurl"], do: "border-2 border-blue-500" %> ">
@@ -60,6 +61,7 @@
                             </button>
                         <% end %>
                     </div>
+                    <% end %>
                     <label class="block text-2xl text-white text-center mt-2"><%= @selected["title"] %></label>
                     <label class="block text-base text-gray-600 text-center mt-2"><%= @selected["classification"] %></label>
                     <label class="block text-base text-gray-400 text-center mt-2"><%= @selected["creditline"] %></label>
@@ -78,9 +80,55 @@
                 <% end %>
             </div>
 
+
+
         </div>
     <% end %>
 
 
 
 </div>
+
+
+
+<%= if @selected != nil do %>
+<div class="w-full h-screen fixed z-40 bg-t top-0 left-0 inline-flex sm:hidden items-center">
+    <div class="w-11/12 sm:w-1/2 rounded-lg bg-gray-800 p-6 mx-auto sm:inline-flex items-center relative">
+        <div class="w-full block">
+            <div class="w-full flex">
+                <img class="h-48 mx-auto rounded" src="<%= @selected["primaryimageurl"] %>">
+            </div>
+            <%= if @selected |> Map.get("images") != nil do %>
+            <div class="w-full whitespace-no-wrap overflow-x-auto py-2 ">
+                <%= for img <- @selected["images"] do %>
+                    <button phx-click="select_img" phx-value-id="<%= img["imageid"] %>" class="rounded py-2 px-4 <%= if img["baseimageurl"] ==  @selected["primaryimageurl"], do: "border-2 border-blue-500" %> ">
+                        <img class="h-16" src="<%= img["baseimageurl"] %>">
+                    </button>
+                <% end %>
+            </div>
+            <% end %>
+            <label class="block text-2xl text-white text-center mt-2"><%= @selected["title"] %></label>
+            <label class="block text-base text-gray-600 text-center mt-2"><%= @selected["classification"] %></label>
+            <label class="block text-base text-gray-400 text-center mt-2"><%= @selected["creditline"] %></label>
+            <%= if @selected |> Map.get("colors") != nil do %>
+                <label class="block text-base text-gray-400 text-center mt-2 ml-auto">Colors </label>
+                <div class="w-full">
+                    <%= for color <- @selected["colors"] do %>
+                    <div class="w-6 h-6 rounded-full float-left m-2" style="background: <%= color["css3"] %>">
+                    </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+        <button phx-click="close_detail" class="w-10 h-10 rounded-full bg-gray-300 absolute top-0 right-0 mt-3 mr-3 inline-flex items-center">
+            <svg aria-hidden="true" focusable="false" data-prefix="fad" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"
+                class="w-6 h-6 mx-auto">
+                <g class="">
+                    <path fill="currentColor" d="M9.21,356.07a31.46,31.46,0,0,0,0,44.48l22.24,22.24a31.46,31.46,0,0,0,44.48,0L176,322.72,109.28,256ZM342.79,111.45,320.55,89.21a31.46,31.46,0,0,0-44.48,0L176,189.28,242.72,256,342.79,155.93a31.46,31.46,0,0,0,0-44.48Z" class="text-gray-600"></path>
+                    <path fill="currentColor" d="M342.79,356.07a31.46,31.46,0,0,1,0,44.48l-22.24,22.24a31.46,31.46,0,0,1-44.48,0L9.21,155.93a31.46,31.46,0,0,1,0-44.48L31.45,89.21a31.46,31.46,0,0,1,44.48,0Z" class="text-gray-800"></path>
+                </g>
+            </svg>
+        </button>
+    </div>
+</div>
+<% end %>
