@@ -26,7 +26,7 @@
 
         <div class="w-full flex">
 
-            <div class="w-1/2 h-85v overflow-y-scroll">
+            <div class="w-1/2 h-85v overflow-y-scroll" phx-hook="scroll_infinite">
                 <div class="w-full">
                     <%= for item <- @list do %>
                         <button phx-click="select_film" phx-value-id="<%= item["id"] %>" class="px-4 py-10 w-3/12 float-left">
@@ -37,12 +37,12 @@
                         </button>
                     <% end %>
                 </div>
-                <%= if (@list |> length) < @info["totalrecords"] do %>
-                    <div class="w-full flex mt-4 pb-4">
-                        <button phx-click="more_list" class="text-white bg-gray-700 rounded font-bold px-4 py-2 mx-auto">
-                            Ver más
-                        </button>
-                    </div>
+                <%= if @loading_list do %>
+                <div class="w-full flex mt-5 pb-2">
+                    <lottie-player src="/images/loading_2.json" background="transparent" speed="1"
+                        class="w-24 h-24 mx-auto" loop autoplay>
+                    </lottie-player>
+                </div>
                 <% end %>
             </div>
 

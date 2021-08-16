@@ -27,14 +27,18 @@ defmodule ResuelvefWeb.HarvardLive do
   def handle_info({_ref, %{data: data}}, socket) do
     list = data["records"]
     info = data["info"]
-    {:noreply, assign(socket, list: (socket.assigns.list ++ list), info: info, loading: false)}
+    {:noreply, assign(socket, list: (socket.assigns.list ++ list), info: info, loading: false, loading_list: false)}
   end
 
   def handle_event("more_list", _params, socket) do
-    index = socket.assigns.index + 1
-    index
-    |> get_list()
-    {:noreply, assign(socket, index: index, loading_list: true)}
+    if (socket.assigns.list |> length) < socket.assigns.info["totalrecords"] do
+      index = socket.assigns.index + 1
+      index
+      |> get_list()
+      {:noreply, assign(socket, index: index, loading_list: true)}
+    else
+      {:noreply, socket}
+    end
   end
 
   def handle_event("select_film", %{"id" => id}, socket) do
