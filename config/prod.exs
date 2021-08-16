@@ -9,3 +9,7 @@ config :resuelvef, ResuelvefWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :logger, level: :info
+
+config :resuelvef, :endpoint,
+  ghibli: "https://ghibliapi.herokuapp.com/",
+  harvar: "https://api.harvardartmuseums.org/object?apikey=b2b107bb-64f0-4651-99ff-d3b0e15fceb7"
