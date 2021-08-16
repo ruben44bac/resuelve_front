@@ -51,7 +51,8 @@ defmodule Resuelvef.MixProject do
       {:httpoison, "~> 1.6"},
       {:plug, "~> 1.10.0"},
       {:earmark, "~> 1.2"},
-      {:ex_doc, "~> 0.19"}
+      {:ex_doc, "~> 0.19"},
+      {:distillery, "~> 2.1"}
     ]
   end
 

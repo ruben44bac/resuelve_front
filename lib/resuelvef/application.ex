@@ -8,7 +8,7 @@ defmodule Resuelvef.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      Resuelvef.Repo,
+      # Resuelvef.Repo,
       # Start the Telemetry supervisor
       ResuelvefWeb.Telemetry,
       # Start the PubSub system

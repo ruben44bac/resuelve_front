@@ -7,8 +7,8 @@
 # General application configuration
 use Mix.Config
 
-config :resuelvef,
-  ecto_repos: [Resuelvef.Repo]
+# config :resuelvef,
+#   ecto_repos: [Resuelvef.Repo]
 
 # Configures the endpoint
 config :resuelvef, ResuelvefWeb.Endpoint,
