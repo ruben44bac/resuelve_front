@@ -1,4 +1,7 @@
 defmodule ResuelvefWeb.Telemetry do
+  @moduledoc """
+    This module is the performance dashboard of the app
+  """
   use Supervisor
   import Telemetry.Metrics
 

@@ -20,7 +20,6 @@ defmodule ResuelvefWeb.Router do
     live "/", PageLive, :index
     live "/ghibli", GhibliLive, :index
     live "/harvard", HarvardLive, :index
-    live "/xkcd", XkcdLive, :index
   end
 
   # Other scopes may use custom stacks.

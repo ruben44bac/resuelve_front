@@ -1,6 +1,6 @@
 defmodule Resuelvef.HarvardHandler do
   @moduledoc """
-  This module takes care of the logical part related to Ghibli
+  This module takes care of the logical part related to Harvard
   """
 
   @endpoint Application.get_env(:resuelvef, :endpoint)[:harvar]

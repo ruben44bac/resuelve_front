@@ -52,7 +52,8 @@ defmodule Resuelvef.MixProject do
       {:plug, "~> 1.10.0"},
       {:earmark, "~> 1.2"},
       {:ex_doc, "~> 0.19"},
-      {:distillery, "~> 2.1"}
+      {:distillery, "~> 2.1"},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 

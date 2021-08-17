@@ -1,4 +1,8 @@
 defmodule ResuelvefWeb.GhibliLive do
+
+  @moduledoc """
+    This module is in charge of managing the liveview part of the app related to Ghibli
+  """
   use ResuelvefWeb, :live_view
 
   alias Resuelvef.GhibliHandler
