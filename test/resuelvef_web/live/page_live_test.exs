@@ -5,7 +5,9 @@ defmodule ResuelvefWeb.PageLiveTest do
 
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "Welcome to Phoenix!"
-    assert render(page_live) =~ "Welcome to Phoenix!"
+    assert disconnected_html =~ "Bienvenido a la prueba del front"
+    assert render(page_live) =~ "Bienvenido a la prueba del front"
   end
+
+
 end
