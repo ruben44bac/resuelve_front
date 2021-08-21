@@ -6,6 +6,7 @@ defmodule ResuelvefWeb.HarvardLive do
   use ResuelvefWeb, :live_view
   alias Resuelvef.HarvardHandler
 
+  @spec mount(any, any, Phoenix.LiveView.Socket.t()) :: {:ok, any}
   def mount(_params, _session, socket) do
     send(self(), :after_join)
     {:ok, assign(socket,
@@ -18,6 +19,12 @@ defmodule ResuelvefWeb.HarvardLive do
     )}
   end
 
+  @spec handle_info(
+          :after_join
+          | {any, %{:data => nil | maybe_improper_list | map, optional(any) => any}}
+          | {:DOWN, any, :process, any, :normal},
+          any
+        ) :: {:noreply, any}
   def handle_info(:after_join, socket) do
     socket.assigns.index
     |> get_list()
@@ -34,6 +41,7 @@ defmodule ResuelvefWeb.HarvardLive do
     {:noreply, assign(socket, list: (socket.assigns.list ++ list), info: info, loading: false, loading_list: false)}
   end
 
+  @spec handle_event(<<_::64, _::_*8>>, any, atom | map) :: {:noreply, any}
   def handle_event("more_list", _params, socket) do
     if (socket.assigns.list |> length) < socket.assigns.info["totalrecords"] do
       index = socket.assigns.index + 1

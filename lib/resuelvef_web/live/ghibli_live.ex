@@ -7,6 +7,7 @@ defmodule ResuelvefWeb.GhibliLive do
 
   alias Resuelvef.GhibliHandler
 
+  @spec mount(any, any, Phoenix.LiveView.Socket.t()) :: {:ok, any}
   def mount(_params, _session, socket) do
     send(self(), :after_join)
     {:ok, assign(socket,
@@ -19,6 +20,12 @@ defmodule ResuelvefWeb.GhibliLive do
     )}
   end
 
+  @spec handle_info(
+          :after_join
+          | {any, %{:list => any, optional(any) => any}}
+          | {:DOWN, any, :process, any, :normal},
+          any
+        ) :: {:noreply, any}
   def handle_info(:after_join, socket) do
     get_list()
     {:noreply, socket}
@@ -32,6 +39,7 @@ defmodule ResuelvefWeb.GhibliLive do
     {:noreply, assign(socket, list: list, list_body: list, loading: false)}
   end
 
+  @spec handle_event(<<_::64, _::_*8>>, any, Phoenix.LiveView.Socket.t()) :: {:noreply, any}
   def handle_event("search_change", %{"search" => ""}, socket) do
     {:noreply, assign(socket, search: "", autocomplete: [])}
   end
@@ -67,6 +75,7 @@ defmodule ResuelvefWeb.GhibliLive do
     end)
   end
 
+  @spec get_img(any) :: any
   def get_img(id) do
     hard_img()
     |> Enum.member?(id)

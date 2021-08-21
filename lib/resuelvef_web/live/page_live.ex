@@ -5,6 +5,7 @@ defmodule ResuelvefWeb.PageLive do
 
   use ResuelvefWeb, :live_view
 
+  @spec mount(any, any, any) :: {:ok, any}
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
