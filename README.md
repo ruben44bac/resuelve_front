@@ -52,3 +52,8 @@ Recuerda que puedes generar la documentación local de la aplicación con
 mix docs
 ```
 
+Pruebas
+
+```bash
+mix test
+```
